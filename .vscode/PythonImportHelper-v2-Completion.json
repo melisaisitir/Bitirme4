@@ -1,0 +1,173 @@
+[
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "url_for",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "flash",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "generate_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "init_db",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:  # Set timeout to 10 seconds\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,\n                password TEXT NOT NULL,\n                dob TEXT NOT NULL,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "home",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def home():\n    if 'username' in session:\n        return render_template('home_logged_in.html', username=session['username'])\n    return render_template('Home.html')\n@app.route('/login', methods=['GET', 'POST'])\ndef login():\n    if request.method == 'POST':\n        email = request.form['email']\n        password = request.form['password']\n        with sqlite3.connect('users.db', timeout=10) as conn:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def login():\n    if request.method == 'POST':\n        email = request.form['email']\n        password = request.form['password']\n        with sqlite3.connect('users.db', timeout=10) as conn:\n            c = conn.cursor()\n            c.execute('SELECT * FROM User WHERE email = ?', (email,))\n            user = c.fetchone()\n        if user and check_password_hash(user[3], password):  # Assuming password is the 4th column\n            session['username'] = user[1]  # Assuming first name is the 2nd column",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "register",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def register():\n    if request.method == 'POST':\n        first_name = request.form['first-name']\n        last_name = request.form['last-name']\n        password = request.form['password']\n        confirm_password = request.form['confirm-password']\n        dob = request.form['dob']\n        phone = request.form['phone']\n        gender = request.form['gender']\n        email = request.form['email']",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "about",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def about():\n    if 'username' in session:\n        return render_template('about_logged_in.html', username=session['username'])\n    return render_template('about.html')\n@app.route('/create')\ndef create():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    return render_template('create.html', username=session['username'])",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "create",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def create():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    return render_template('create.html', username=session['username'])\n@app.route('/books')\ndef books():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "books",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def books():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    return render_template('books.html', username=session['username'])\n@app.route('/logout')\ndef logout():\n    session.pop('username', None)\n    return redirect(url_for('home'))\nif __name__ == '__main__':",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def logout():\n    session.pop('username', None)\n    return redirect(url_for('home'))\nif __name__ == '__main__':\n    app.run(debug=True)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app = Flask(__name__)\napp.secret_key = 'your_secret_key'  # Needed for session management\ndef init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:  # Set timeout to 10 seconds\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app.secret_key",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app.secret_key = 'your_secret_key'  # Needed for session management\ndef init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:  # Set timeout to 10 seconds\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,\n                password TEXT NOT NULL,",
+        "detail": "app",
+        "documentation": {}
+    }
+]

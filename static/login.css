@@ -1,0 +1,286 @@
+body {
+    font-family: 'MuseoModerno', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0f02cf;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #000058, #000092, #0000db);
+    color: white;
+    padding: 10px 20px;
+    font-family: 'MuseoModerno', sans-serif;
+    z-index: 10;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo .main-logo {
+    font-size: 1.9em;
+    font-weight: 700;
+}
+
+.logo .sub-logo {
+    font-size: 1.2em;
+    font-weight: 400;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 35px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.4em;
+    font-weight: 500;
+    position: relative;
+}
+
+nav ul li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+.auth-buttons a {
+    display: inline-block;
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'MuseoModerno', sans-serif;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.auth-buttons a:hover {
+    transform: scale(1.1);
+}
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    gap: 20px;
+}
+
+.illustration {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.illustration img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.login-form {
+    background-color: #111b78;
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid red;
+    text-align: center;
+    width: 400px;
+}
+
+.login-form h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.login-form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 1.2em;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.login-form .remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.login-form .remember-me input {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.login-form .login-btn {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.login-form .login-btn:hover {
+    transform: scale(1.1);
+}
+
+.forgot-password {
+    margin-top: 20px;
+}
+
+.forgot-password a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.forgot-password span {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-wrap: wrap;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        display: none;
+        width: 100%;
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    .auth-buttons {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .auth-buttons a {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+
+    .logo .main-logo {
+        font-size: 1.5em;
+    }
+
+    .logo .sub-logo {
+        font-size: 1em;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .login-section {
+        padding: 20px;
+    }
+
+    .illustration img {
+        border-radius: 5px;
+    }
+
+    .login-form {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul {
+        gap: 5px;
+    }
+
+    nav ul li a {
+        font-size: 1em;
+    }
+
+    .auth-buttons {
+        padding: 5px 0;
+    }
+
+    .auth-buttons a {
+        padding: 8px 15px;
+        font-size: 0.8em;
+    }
+
+    .logo .main-logo {
+        font-size: 1.2em;
+    }
+
+    .logo .sub-logo {
+        font-size: 0.8em;
+    }
+
+    .login-section {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .login-form {
+        width: 100%;
+    }
+}
+

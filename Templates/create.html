@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANU by Mau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400..700&family=MuseoModerno:ital,wght@0,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='create.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="main-logo">MANU</span>
+            <span class="sub-logo">by Mau</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('home')}}" class="active">Home</a></li>
+                <li><a href="{{url_for('about')}}">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="{{url_for('books')}}">My Books</a></li>
+                <li><a href="{{url_for('create')}}">Create</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <div class="user-info">
+                <span>{{ username }}</span>
+                <a href="#"><img src="{{ url_for('static', filename='images/profile-icon.png') }}" alt="Profile"></a>
+            </div>
+            <a href="{{url_for('logout')}}" class="logout">Log-Out</a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </header>
+    <main>
+        <section class="create-book-section">
+            <div class="morality">
+                <h3>Morality</h3>
+                <div class="morality-buttons">
+                    <button>Loyalty</button>
+                    <button>Friendship</button>
+                    <button>Justice</button>
+                    <button>Honor</button>
+                    <button>Honesty</button>
+                    <button>Generosity</button>
+                </div>
+            </div>
+            <div class="templates-and-story">
+                <div class="templates">
+                    <h3>Templates</h3>
+                    <div class="template-buttons">
+                        <button>Space Exploration</button>
+                        <button>Knights and Chivalry</button>
+                        <button>Cultural Melting Pot</button>
+                        <button>Education</button>
+                        <button>Modern Family</button>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <textarea placeholder="Enter text here, story outlines etc."></textarea>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="clear">Clear</button>
+                <button class="create">Create</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
+
