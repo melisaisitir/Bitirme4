@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANU by Mau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400..700&family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css')}}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="main-logo">MANU</span>
+            <span class="sub-logo">by Mau</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('home')}}" class="active">Home</a></li>
+                <li><a href="{{url_for('about')}}" class="active">About</a></li>
+                <li><a href="#" class="active">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="{{url_for('login')}}" class="login">Log-In</a>
+            <a href="{{url_for('register')}}" class="signup">Sign-Up</a>
+        </div>
+    </header>
+    <main>
+        <div class="illustration1">
+            <img src="{{url_for('static', filename='pictures/ChildrenEbookWebsite.png')}}" alt="illustration1">
+        </div>
+    </main>
+</body>
+</html>

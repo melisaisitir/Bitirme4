@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANU by Mau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400..700&family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='about_logged_in.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="main-logo">MANU</span>
+            <span class="sub-logo">by Mau</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('home')}}" class="active">Home</a></li>
+                <li><a href="{{url_for('about')}}" class="active">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="{{url_for('books')}}">My Books</a></li>
+                <li><a href="{{url_for('create')}}">Create</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <div class="user-info">
+                <span>{{ username }}</span>
+                <a href="#"><img src="{{ url_for('static', filename='pictures/account.png') }}" alt="Profile"></a>
+            </div>
+            <a href="{{url_for('logout')}}" class="logout">Log-Out</a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </header>
+    <main>
+        <section class="about">
+            <h1>Who am I?</h1>
+            <p>Hello, I'm Manu. I am an AI bot that is here to create children's books according to your wishes. I believe that we will create beautiful, new, instructive and exciting stories together with you. Let's write incredible stories!!!</p>
+            <a href="#" class="create-button" id="createButton">Create</a>
+            <div class="arrow">Let's Create a Book</div>
+        </section>
+        <div class="illustration1">
+            <img src="{{url_for('static', filename='pictures/AibotForwebsite.jpg')}}" alt="illustration1">
+        </div>  
+    </main>
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+
+        document.getElementById('createButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = "{{url_for('create')}}";
+        });
+    </script>
+</body>
+</html>
+

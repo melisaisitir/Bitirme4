@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANU by Mau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400..700&family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="main-logo">MANU</span>
+            <span class="sub-logo">by Mau</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('home')}}" class="active">Home</a></li>
+                <li><a href="{{url_for('about')}}" class="active">About</a></li>
+                <li><a href="#" class="active">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="{{url_for('login')}}" class="login">Log-In</a>
+            <a href="{{url_for('register')}}" class="signup">Sign-Up</a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </header>
+    <main>
+        <section class="create-account-section">
+            <h2>Create Account</h2>
+            <form id="registerForm" action="{{ url_for('register') }}" method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                        <div id="passwordLengthError" style="color: red; display: none;">Password must be at least 8 characters long and contain at least one uppercase letter.</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                </div>
+                <div id="passwordError" style="color: red; display: none;">Passwords do not match!</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" required>
+                        <div id="dobError" style="color: red; display: none;">You must be at least 15 years old to register.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" pattern="\(\d{3}\) \d{3} \d{2} \d{2}" required>
+                        <div id="phoneError" style="color: red; display: none;">Invalid phone number format. Please use the format (532) 297 23 24.</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <input type="text" id="gender" name="gender" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                        <div id="emailError" style="color: red; display: none;">Please enter a valid email address.</div>
+                    </div>
+                </div>
+                <button type="submit" class="create-account-btn">Create Account</button>
+            </form>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </section>
+    </main>
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('active');
+        }
+
+        document.querySelector('.login').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+
+        document.querySelector('.signup').addEventListener('click', function() {
+            window.location.href = 'signup.html';
+        });
+
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirm-password');
+        const passwordError = document.getElementById('passwordError');
+        const passwordLengthError = document.getElementById('passwordLengthError');
+        const email = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const phone = document.getElementById('phone');
+        const phoneError = document.getElementById('phoneError');
+        const dob = document.getElementById('dob');
+        const dobError = document.getElementById('dobError');
+
+        function validatePasswords() {
+            const passwordValue = password.value;
+            const confirmPasswordValue = confirmPassword.value;
+            const passwordPattern = /^(?=.*[A-Z]).{8,}$/;
+
+            if (!passwordPattern.test(passwordValue)) {
+                passwordLengthError.style.display = 'block';
+            } else {
+                passwordLengthError.style.display = 'none';
+            }
+
+            if (passwordValue !== confirmPasswordValue) {
+                passwordError.style.display = 'block';
+            } else {
+                passwordError.style.display = 'none';
+            }
+        }
+
+        function validateEmail() {
+            const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+            if (!emailPattern.test(email.value)) {
+                emailError.style.display = 'block';
+                return false;
+            } else {
+                emailError.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validatePhone() {
+            const phonePattern = /^\(\d{3}\) \d{3} \d{2} \d{2}$/;
+            if (!phonePattern.test(phone.value)) {
+                phoneError.style.display = 'block';
+                return false;
+            } else {
+                phoneError.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validateDOB() {
+            const dobValue = new Date(dob.value);
+            const today = new Date();
+            const age = today.getFullYear() - dobValue.getFullYear();
+            const monthDifference = today.getMonth() - dobValue.getMonth();
+
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobValue.getDate())) {
+                age--;
+            }
+
+            if (age < 15) {
+                dobError.style.display = 'block';
+                return false;
+            } else {
+                dobError.style.display = 'none';
+                return true;
+            }
+        }
+
+        password.addEventListener('input', validatePasswords);
+        confirmPassword.addEventListener('input', validatePasswords);
+        email.addEventListener('input', validateEmail);
+        phone.addEventListener('input', validatePhone);
+        dob.addEventListener('input', validateDOB);
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            validatePasswords();
+            if (!validateEmail() || !validatePhone() || !validateDOB() || passwordLengthError.style.display === 'block') {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
