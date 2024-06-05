@@ -81,11 +81,47 @@
         "documentation": {}
     },
     {
+        "label": "openai",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "openai",
+        "description": "openai",
+        "detail": "openai",
+        "documentation": {}
+    },
+    {
         "label": "init_db",
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:  # Set timeout to 10 seconds\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,\n                password TEXT NOT NULL,\n                dob TEXT NOT NULL,",
+        "peekOfCode": "def init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,\n                password TEXT NOT NULL,\n                dob TEXT NOT NULL,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "moderate_content",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def moderate_content(text):\n    openai.api_key = 'your_openai_api_key'\n    response = openai.Moderation.create(\n        input=text\n    )\n    return response['results'][0]['flagged']\ndef generate_story(template, morality, user_text):\n    openai.api_key = 'your_openai_api_key'\n    messages = [\n        {\"role\": \"system\", \"content\": \"You are a creative assistant for generating children's stories.\"},",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "generate_story",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def generate_story(template, morality, user_text):\n    openai.api_key = 'your_openai_api_key'\n    messages = [\n        {\"role\": \"system\", \"content\": \"You are a creative assistant for generating children's stories.\"},\n        {\"role\": \"user\", \"content\": f\"Create a children's story based on the template '{template}' and the moral lesson '{morality}'. Additional details: {user_text}\"}\n    ]\n    response = openai.ChatCompletion.create(\n        model=\"gpt-3.5-turbo\",\n        messages=messages,\n        max_tokens=600  # Ensure story is within the 300-600 word range",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "generate_images",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def generate_images(paragraphs, title):\n    openai.api_key = 'your_openai_api_key'\n    images = []\n    # Generate cover image based on the title\n    response = openai.Image.create(\n        prompt=f\"Cover image for a children's book titled '{title}'\",\n        n=1,\n        size=\"512x512\"\n    )\n    cover_image_url = response['data'][0]['url']",
         "detail": "app",
         "documentation": {}
     },
@@ -121,7 +157,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def about():\n    if 'username' in session:\n        return render_template('about_logged_in.html', username=session['username'])\n    return render_template('about.html')\n@app.route('/create')\ndef create():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    return render_template('create.html', username=session['username'])",
+        "peekOfCode": "def about():\n    if 'username' in session:\n        return render_template('about_logged_in.html', username=session['username'])\n    return render_template('about.html')\n@app.route('/create', methods=['GET', 'POST'])\ndef create():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    if request.method == 'POST':",
         "detail": "app",
         "documentation": {}
     },
@@ -130,7 +166,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def create():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    return render_template('create.html', username=session['username'])\n@app.route('/books')\ndef books():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))",
+        "peekOfCode": "def create():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    if request.method == 'POST':\n        template = request.form.get('template')\n        morality = request.form.get('morality')\n        user_text = request.form.get('story_content')\n        # Moderate the user text\n        if moderate_content(user_text):",
         "detail": "app",
         "documentation": {}
     },
@@ -139,7 +175,16 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def books():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    return render_template('books.html', username=session['username'])\n@app.route('/logout')\ndef logout():\n    session.pop('username', None)\n    return redirect(url_for('home'))\nif __name__ == '__main__':",
+        "peekOfCode": "def books():\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    user_id = session['user_id']\n    with sqlite3.connect('users.db', timeout=10) as conn:\n        c = conn.cursor()\n        c.execute('SELECT id, title, cover_image FROM Book WHERE user_id = ?', (user_id,))\n        books = c.fetchall()\n    return render_template('books.html', username=session['username'], books=books)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "read_book",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def read_book(book_id):\n    if 'username' not in session:\n        flash('You need to be logged in to access this page.')\n        return redirect(url_for('login'))\n    with sqlite3.connect('users.db', timeout=10) as conn:\n        c = conn.cursor()\n        c.execute('SELECT title, story, images FROM Book WHERE id = ?', (book_id,))\n        book = c.fetchone()\n    if book:\n        title, story, images = book",
         "detail": "app",
         "documentation": {}
     },
@@ -148,7 +193,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def logout():\n    session.pop('username', None)\n    return redirect(url_for('home'))\nif __name__ == '__main__':\n    app.run(debug=True)",
+        "peekOfCode": "def logout():\n    session.pop('username', None)\n    session.pop('user_id', None)\n    return redirect(url_for('home'))\nif __name__ == '__main__':\n    app.run(debug=True)",
         "detail": "app",
         "documentation": {}
     },
@@ -157,7 +202,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app = Flask(__name__)\napp.secret_key = 'your_secret_key'  # Needed for session management\ndef init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:  # Set timeout to 10 seconds\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,",
+        "peekOfCode": "app = Flask(__name__)\napp.secret_key = 'your_secret_key'\ndef init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,",
         "detail": "app",
         "documentation": {}
     },
@@ -166,7 +211,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app.secret_key = 'your_secret_key'  # Needed for session management\ndef init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:  # Set timeout to 10 seconds\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,\n                password TEXT NOT NULL,",
+        "peekOfCode": "app.secret_key = 'your_secret_key'\ndef init_db():\n    with sqlite3.connect('users.db', timeout=10) as conn:\n        c = conn.cursor()\n        c.execute('''\n            CREATE TABLE IF NOT EXISTS User (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                first_name TEXT NOT NULL,\n                last_name TEXT NOT NULL,\n                password TEXT NOT NULL,",
         "detail": "app",
         "documentation": {}
     }

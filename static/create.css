@@ -240,6 +240,11 @@ nav ul li a:hover::after {
     transform: scale(1.1);
 }
 
+.selected {
+    background-color: red !important;
+    color: white !important;
+}
+
 .menu-toggle {
     display: none;
     font-size: 1.5em;

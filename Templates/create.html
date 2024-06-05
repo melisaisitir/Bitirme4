@@ -36,36 +36,49 @@
     </header>
     <main>
         <section class="create-book-section">
-            <div class="morality">
-                <h3>Morality</h3>
-                <div class="morality-buttons">
-                    <button>Loyalty</button>
-                    <button>Friendship</button>
-                    <button>Justice</button>
-                    <button>Honor</button>
-                    <button>Honesty</button>
-                    <button>Generosity</button>
-                </div>
-            </div>
-            <div class="templates-and-story">
-                <div class="templates">
-                    <h3>Templates</h3>
-                    <div class="template-buttons">
-                        <button>Space Exploration</button>
-                        <button>Knights and Chivalry</button>
-                        <button>Cultural Melting Pot</button>
-                        <button>Education</button>
-                        <button>Modern Family</button>
+            <form method="POST" action="{{ url_for('create') }}">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <div class="morality">
+                    <h3>Morality</h3>
+                    <div class="morality-buttons">
+                        <button type="button" class="morality-btn" onclick="toggleSelection(this, 'morality')">Loyalty</button>
+                        <button type="button" class="morality-btn" onclick="toggleSelection(this, 'morality')">Friendship</button>
+                        <button type="button" class="morality-btn" onclick="toggleSelection(this, 'morality')">Justice</button>
+                        <button type="button" class="morality-btn" onclick="toggleSelection(this, 'morality')">Honor</button>
+                        <button type="button" class="morality-btn" onclick="toggleSelection(this, 'morality')">Honesty</button>
+                        <button type="button" class="morality-btn" onclick="toggleSelection(this, 'morality')">Generosity</button>
                     </div>
                 </div>
-                <div class="story-content">
-                    <textarea placeholder="Enter text here, story outlines etc."></textarea>
+                <div class="templates-and-story">
+                    <div class="templates">
+                        <h3>Templates</h3>
+                        <div class="template-buttons">
+                            <button type="button" class="template-btn" onclick="toggleSelection(this, 'template')">Space Exploration</button>
+                            <button type="button" class="template-btn" onclick="toggleSelection(this, 'template')">Knights and Chivalry</button>
+                            <button type="button" class="template-btn" onclick="toggleSelection(this, 'template')">Cultural Melting Pot</button>
+                            <button type="button" class="template-btn" onclick="toggleSelection(this, 'template')">Education</button>
+                            <button type="button" class="template-btn" onclick="toggleSelection(this, 'template')">Modern Family</button>
+                        </div>
+                    </div>
+                    <div class="story-content">
+                        <textarea name="story_content" placeholder="Enter text here, story outlines etc."></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="action-buttons">
-                <button class="clear">Clear</button>
-                <button class="create">Create</button>
-            </div>
+                <input type="hidden" name="morality" id="morality" value="">
+                <input type="hidden" name="template" id="template" value="">
+                <div class="action-buttons">
+                    <button type="reset" class="clear">Clear</button>
+                    <button type="submit" class="create">Create</button>
+                </div>
+            </form>
         </section>
     </main>
     <script>
@@ -73,7 +86,25 @@
             const nav = document.querySelector('nav');
             nav.classList.toggle('active');
         }
+
+        function toggleSelection(button, type) {
+            const selectedClass = 'selected';
+            const buttons = document.querySelectorAll(`.${type}-btn`);
+            
+            buttons.forEach(btn => {
+                if (btn !== button) {
+                    btn.classList.remove(selectedClass);
+                }
+            });
+            
+            if (button.classList.contains(selectedClass)) {
+                button.classList.remove(selectedClass);
+                document.getElementById(type).value = '';
+            } else {
+                button.classList.add(selectedClass);
+                document.getElementById(type).value = button.textContent;
+            }
+        }
     </script>
 </body>
 </html>
-
